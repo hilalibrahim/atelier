@@ -2,7 +2,36 @@
 import { motion, useScroll, useTransform, useAnimation, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from 'react';
 import { FaInstagram, FaLinkedinIn, FaMapMarkerAlt } from 'react-icons/fa';
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+      setIsOpen(false);
+    }
+  };
+
+  return (
+    <nav className="fixed top-0 w-full z-50 bg-black backdrop-blur-md px-6 py-4 flex items-center justify-between">
+      <div className="text-white font-light text-xl">
+        <img src="/assets/logoa.png" className="w-[150px] h-[150px]" alt="Atelier Republic Logo" />
+      </div>
+      <div className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
+        ☰
+      </div>
+      <ul className={`md:flex gap-6 text-white font-light transition-all duration-300 
+                      ${isOpen ? 'block absolute top-full left-0 w-full bg-black p-4' : 'hidden md:flex'}`}>
+        {["home", "about", "video", "projects", "team"].map((id) => (
+          <li key={id} className="cursor-pointer hover:text-white/80" onClick={() => scrollToSection(id)}>
+            {id.charAt(0).toUpperCase() + id.slice(1)}
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
 
 const LetterReveal = () => {
   const controls = useAnimation();
@@ -105,6 +134,7 @@ const LetterReveal = () => {
 
   return (
     <div
+    id="home"
       ref={containerRef}
       className="h-screen w-full flex items-center justify-center bg-black overflow-hidden relative "
     >
@@ -137,6 +167,38 @@ const LetterReveal = () => {
   );
 };
 
+const AboutSection = () => {
+  return (
+    <section id="about" className="min-h-screen bg-black text-white flex items-center justify-center px-8 py-20">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <div className="relative aspect-square">
+          <img 
+            src="/assets/logoa.png" 
+            alt="Atelier Republic Studio" 
+            className="w-full h-full object-cover rounded-lg"
+          />
+        </div>
+        <div>
+          <h2 className="text-4xl font-light mb-8">Our Philosophy</h2>
+          <p className="text-lg mb-6 opacity-80">
+            Atelier Republic is an architectural practice rooted in the belief that design should be
+            a dialogue between space, light, and human experience. We approach each project as a
+            unique narrative, blending local context with global perspectives.
+          </p>
+          <p className="text-lg mb-6 opacity-80">
+            Founded in Kerala, our work spans across residential, commercial, and public spaces,
+            with a focus on sustainable and contextually responsive architecture.
+          </p>
+          <p className="text-lg opacity-80">
+            Our designs emerge from careful study of site conditions, cultural heritage, and
+            contemporary needs, resulting in spaces that are both timeless and forward-looking.
+          </p>
+        </div>
+     
+      </div>
+    </section>
+  );
+};
 
 
 
@@ -152,9 +214,9 @@ const VideoSection = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={containerRef} className="h-screen w-full relative bg-black">
+    <section id="video" ref={containerRef} className="h-screen w-full relative bg-black ">
       <motion.div
-        className="absolute inset-0 flex items-center justify-center"
+        className="absolute inset-10 flex items-center justify-center"
         style={{ opacity }}
       >
         <video
@@ -163,7 +225,7 @@ const VideoSection = () => {
           muted
           loop
           playsInline
-          className="max-w-full max-h-full"
+          className="max-w-full max-h-full mt-6"
           src="/videos/showreel.mp4"
         />
       </motion.div>
@@ -210,7 +272,7 @@ const ProjectGrid = ({ projects }) => {
   };
 
   return (
-    <section className="min-h-screen w-screen bg-black relative overflow-hidden">
+    <section id="project" className="min-h-screen w-screen bg-black relative overflow-hidden">
       <div className="relative h-screen w-full">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
@@ -294,6 +356,58 @@ const ProjectGrid = ({ projects }) => {
     </section>
   );
 };
+const TeamSection = () => {
+  const team = [
+    { 
+      name: "Latif Afsal", 
+      role: "Senior Architect, CEO", 
+      img: "/assets/team1.jpg",
+      bio: "Latif Afsal founded Atelier Republic with a vision to bridge traditional Kerala architecture with contemporary design principles. With a Master's in Sustainable Design from CEPT University and 12+ years of experience, he leads projects that emphasize climate-responsive design and cultural authenticity. His award-winning work on vernacular reinterpretations has been featured in Architectural Digest India. "
+    },
+    { 
+      name: "Shijna Abusalih", 
+      role: "Head of Operations", 
+      img: "/assets/team2.jpg",
+      bio: "Shijna brings 8 years of experience in architectural project management, streamlining workflows between design teams and construction sites. Specializing in resource optimization and client relations, she holds a PMP certification and has successfully delivered 30+ projects ranging from luxury residences to institutional campuses across South India"
+    },
+    { 
+      name: "Jean Solomon", 
+      role: "Junior Architect", 
+      img: "https://media.licdn.com/dms/image/v2/D5603AQHD-O7qAJnI-A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1720927323391?e=1750291200&v=beta&t=Myk25syAo9PR5mrDb19f_aDTGkwSlZI7KkFq73MFgas",
+      bio: "A recent graduate from the University of Kerala with honors in Architectural Design, Jean contributes fresh perspectives to the studio's residential projects. Passionate about parametric design and digital fabrication, they assist in 3D modeling and material research while developing expertise in tropical modernism under the team's mentorship"
+    },
+  ];
+
+  return (
+    <section id="team" className="bg-black text-white py-20 px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-light mb-4">Our Team</h2>
+          <p className="max-w-2xl mx-auto opacity-80">
+            A collaborative collective of architects, designers, and thinkers committed to creating
+            meaningful spaces that respond to their environment and users.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-12">
+          {team.map((member, idx) => (
+            <div key={idx} className="flex flex-col items-center text-center">
+              <img
+                src={member.img}
+                alt={member.name}
+                className="w-40 h-40 object-cover rounded-full border-2 border-white mb-6"
+              />
+              <h3 className="text-xl font-medium mb-2">{member.name}</h3>
+              <p className="text-white/60 mb-4">{member.role}</p>
+              <p className="text-white/70 text-sm">{member.bio}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+
 
 export default function Home() {
   const projects = [
@@ -329,10 +443,17 @@ export default function Home() {
   ];
 
   return (
+
     <div className="relative w-full">
-      <LetterReveal />
-      <VideoSection />
-      <ProjectGrid projects={projects} />
+      <Navbar />
+      <LetterReveal id="home" />
+      <AboutSection  />
+      <section className="mt-[200px]">
+      <VideoSection id="video" />
+      </section>
+     
+      <ProjectGrid id="projects" projects={projects} />
+      <TeamSection />
       
       <footer className="py-16 px-8 border-t border-white/10 bg-black">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
