@@ -355,7 +355,7 @@ export default function Home() {
             <h3 className="text-xl font-light mb-4">Connect</h3>
             <div className="flex gap-4">
               <a
-                href="https://www.instagram.com"
+                href="https://www.instagram.com/atelier.republic/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="opacity-70 hover:opacity-100 transition"
